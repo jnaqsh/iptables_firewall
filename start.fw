@@ -19,17 +19,23 @@ SSH_PORT="22"
 echo "Starting IPv4 Wall..."
 $IPT -F
 $IPT -X
-$IPT -t nat -F
-$IPT -t nat -X
-$IPT -t mangle -F
-$IPT -t mangle -X
+$IPT -Z
+for table in $(</proc/net/ip_tables_names)
+do
+        $IPT -t $table -F
+        $IPT -t $table -X
+        $IPT -t $table -Z
+done
 
 $IPT6 -F
 $IPT6 -X
-$IPT6 -t nat -F
-$IPT6 -t nat -X
-$IPT6 -t mangle -F
-$IPT6 -t mangle -X
+$IPT6 -Z
+for table in $(</proc/net/ip6_tables_names)
+do
+        $IPT6 -t $table -F
+        $IPT6 -t $table -X
+        $IPT6 -t $table -Z
+done
 
 modprobe ip_conntrack
 
