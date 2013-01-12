@@ -11,6 +11,7 @@
 # -------------------------------------------------------------------------
 
 IPT="/sbin/iptables"
+IPT6="/sbin/ip6tables"
 SPAMLIST="blockedip"
 SPAMDROPMSG="BLOCKED IP DROP"
 SSH_PORT="22"
@@ -22,6 +23,14 @@ $IPT -t nat -F
 $IPT -t nat -X
 $IPT -t mangle -F
 $IPT -t mangle -X
+
+$IPT6 -F
+$IPT6 -X
+$IPT6 -t nat -F
+$IPT6 -t nat -X
+$IPT6 -t mangle -F
+$IPT6 -t mangle -X
+
 modprobe ip_conntrack
 
 [ -f /root/scripts/blocked.ips.txt ] && BADIPS=$(egrep -v -E "^#|^$" /root/scripts/blocked.ips.txt)
@@ -32,10 +41,17 @@ PUB_IF="eth0"
 $IPT -A INPUT -i lo -j ACCEPT
 $IPT -A OUTPUT -o lo -j ACCEPT
 
+$IPT6 -A INPUT -i lo -j ACCEPT
+$IPT6 -A OUTPUT -o lo -j ACCEPT
+
 # DROP all incomming traffic
 $IPT -P INPUT DROP
 $IPT -P OUTPUT DROP
 $IPT -P FORWARD DROP
+
+$IPT6 -P INPUT DROP
+$IPT6 -P OUTPUT DROP
+$IPT6 -P FORWARD DROP
 
 if [ -f /root/scripts/blocked.ips.txt ];
 then
