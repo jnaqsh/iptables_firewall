@@ -6,6 +6,8 @@
 # This script is licensed under GNU GPL version 3.0 or above
 # -------------------------------------------------------------------------
 
+echo "Starting IP Spoofing wall..."
+
 INT_IF="eth0" # connected to internet
 SERVER_IP="`cat server_ip`" # server IP
 

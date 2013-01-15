@@ -1,5 +1,5 @@
 #!/bin/bash
-# Linux Firewall: Simple Shell Script To Stop and Flush All Iptables Rules
+# Linux Firewall: Simple Shell Script To Stop and Flush All Ip6tables Rules
 # Some Linux distros like Debian do not have /etc/init.d/iptables stop script
 # This can be also called from cron job if you are testing new firewall on
 # remote box to avoid lock out
@@ -25,3 +25,6 @@ done
 $IPT -P INPUT ACCEPT
 $IPT -P OUTPUT ACCEPT
 $IPT -P FORWARD ACCEPT
+
+# Stop ipv6 wall
+/root/iptables_firewall/stop6.fw
