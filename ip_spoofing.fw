@@ -2,7 +2,7 @@
 # A Linux Shell Script with common rules for IPTABLES Firewall.
 # This script is for avoiding IP Spoofing attack
 # -------------------------------------------------------------------------
-# Copyright (c) 2012 Naqsh Jahan Toos <http://jnaqsh.com/>
+# Copyright (c) 2012 Naqsh Jahan Toos Inc. <http://jnaqsh.com/>
 # This script is licensed under GNU GPL version 3.0 or above
 # -------------------------------------------------------------------------
 

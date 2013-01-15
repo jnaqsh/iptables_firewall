@@ -3,15 +3,15 @@
 # By default this script only open port 80, 22, 53 (input)
 # All outgoing traffic is allowed (default - output)
 # -------------------------------------------------------------------------
-# Copyright (c) 2012 Naqsh Jahan Toos <http://jnaqsh.com/>
+# Copyright (c) 2012 Naqsh Jahan Toos Inc. <http://jnaqsh.com/>
 # This script is licensed under GNU GPL version 3.0 or above
 # -------------------------------------------------------------------------
 
 IPT="/sbin/iptables"
-IPT6="/sbin/ip6tables"
 SPAMLIST="blockedip"
 SPAMDROPMSG="BLOCKED IP DROP"
 SSH_PORT="22"
+PUB_IF="eth0"
 
 echo "Starting IPv4 Wall..."
 $IPT -F
@@ -24,37 +24,19 @@ do
         $IPT -t $table -Z
 done
 
-$IPT6 -F
-$IPT6 -X
-$IPT6 -Z
-for table in $(</proc/net/ip6_tables_names)
-do
-        $IPT6 -t $table -F
-        $IPT6 -t $table -X
-        $IPT6 -t $table -Z
-done
-
 modprobe ip_conntrack
+modprobe ip_conntrack_ftp
 
 [ -f /root/scripts/blocked.ips.txt ] && BADIPS=$(egrep -v -E "^#|^$" /root/scripts/blocked.ips.txt)
-
-PUB_IF="eth0"
 
 #unlimited
 $IPT -A INPUT -i lo -j ACCEPT
 $IPT -A OUTPUT -o lo -j ACCEPT
 
-$IPT6 -A INPUT -i lo -j ACCEPT
-$IPT6 -A OUTPUT -o lo -j ACCEPT
-
 # DROP all incomming traffic
 $IPT -P INPUT DROP
 $IPT -P OUTPUT DROP
 $IPT -P FORWARD DROP
-
-$IPT6 -P INPUT DROP
-$IPT6 -P OUTPUT DROP
-$IPT6 -P FORWARD DROP
 
 if [ -f /root/scripts/blocked.ips.txt ];
 then
@@ -134,7 +116,11 @@ $IPT -A INPUT -j LOG
 $IPT -A FORWARD -j LOG
 $IPT -A INPUT -j DROP
 
-# Start IP spoofing
+# Start ipv6 firewall
+echo "Starting IPv6 Wall..."
+/root/scripts/start6.fw
+
+# Start ip spoofing
 echo "Starting IP Spoofing wall"
 /root/iptables_firewall/ip_spoofing.fw
 

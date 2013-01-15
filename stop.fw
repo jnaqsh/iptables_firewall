@@ -4,18 +4,24 @@
 # This can be also called from cron job if you are testing new firewall on
 # remote box to avoid lock out
 # -------------------------------------------------------------------------
-# Copyright (c) 2004 nixCraft project <http://cyberciti.biz/fb/>
-# This script is licensed under GNU GPL version 2.0 or above
+# Copyright (c) 2012 Naqsh Jahan Toos Inc. <http://jnaqsh.com/>
+# This script is licensed under GNU GPL version 3.0 or above
 # -------------------------------------------------------------------------
-# This script is part of nixCraft shell script collection (NSSC)
-# Visit http://bash.cyberciti.biz/ for more information.
-# -------------------------------------------------------------------------
-iptables -F
-iptables -X
-iptables -t nat -F
-iptables -t nat -X
-iptables -t mangle -F
-iptables -t mangle -X
-iptables -P INPUT ACCEPT
-iptables -P OUTPUT ACCEPT
-iptables -P FORWARD ACCEPT
+
+IPT="/sbin/iptables"
+
+echo "Stopping IPv4 Wall..."
+$IPT -F
+$IPT -X
+$IPT -Z
+for table in $(</proc/net/ip_tables_names)
+do
+        $IPT -t $table -F
+        $IPT -t $table -X
+        $IPT -t $table -Z
+done
+
+# ACCEPT all incomming traffic
+$IPT -P INPUT ACCEPT
+$IPT -P OUTPUT ACCEPT
+$IPT -P FORWARD ACCEPT

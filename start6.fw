@@ -1,0 +1,51 @@
+#!/bin/bash
+# A Linux Shell Script with common rules for IPTABLES Firewall.
+# By default this script only open port 80, 22, 53 (input)
+# All outgoing traffic is allowed (default - output)
+# -------------------------------------------------------------------------
+# Copyright (c) 2012 Naqsh Jahan Toos Inc. <http://jnaqsh.com/>
+# This script is licensed under GNU GPL version 3.0 or above
+# -------------------------------------------------------------------------
+
+IPT6="/sbin/ip6tables"
+SPAMLIST="blockedip"
+SPAMDROPMSG="BLOCKED IP DROP"
+PUB_IF="eth0"
+
+echo "Starting IPv6 Wall..."
+$IPT6 -F
+$IPT6 -X
+$IPT6 -Z
+for table in $(</proc/net/ip6_tables_names)
+do
+        $IPT6 -t $table -F
+        $IPT6 -t $table -X
+        $IPT6 -t $table -Z
+done
+
+[ -f /root/scripts/blocked.ip6s.txt ] && BADIPS=$(egrep -v -E "^#|^$" /root/scripts/blocked.ip6s.txt)
+
+#unlimited
+$IPT6 -A INPUT -i lo -j ACCEPT
+$IPT6 -A OUTPUT -o lo -j ACCEPT
+
+# DROP all incomming traffic
+$IPT6 -P INPUT DROP
+$IPT6 -P OUTPUT DROP
+$IPT6 -P FORWARD DROP
+
+if [ -f /root/scripts/blocked.ip6s.txt ];
+then
+# create a new iptables list
+$IPT6 -N $SPAMLIST
+
+for ipblock in $BADIPS
+do
+   $IPT6 -A $SPAMLIST -s $ipblock -j LOG --log-prefix "$SPAMDROPMSG"
+   $IPT6 -A $SPAMLIST -s $ipblock -j DROP
+done
+
+$IPT6 -I INPUT -j $SPAMLIST
+$IPT6 -I OUTPUT -j $SPAMLIST
+$IPT6 -I FORWARD -j $SPAMLIST
+fi
