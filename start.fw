@@ -117,7 +117,7 @@ $IPT -A FORWARD -j LOG
 $IPT -A INPUT -j DROP
 
 # Start ipv6 firewall
-/root/scripts/start6.fw
+/root/iptables_firewall/start6.fw
 
 # Start ip spoofing
 /root/iptables_firewall/ip_spoofing.fw
