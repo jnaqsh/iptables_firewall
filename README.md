@@ -7,16 +7,17 @@ All outgoing traffic is allowed (default - output)
 
 HOW TO USE IT
 =============
-    cd /root
+    cd ~
+    mkdir scripts
     git clone https://github.com/jnaqsh/iptables_firewall/
     cd iptables_firewall
     chmod +x *.fw
-    touch server_ip
+    mv server_ip.example server_ip
     vi server_ip # write your server ip
 
-    echo '/root/iptables_firewall/start.fw' >> /etc/rc.local
+    echo '~/scripts/iptables_firewall/start.fw' >> /etc/rc.local
 
-    /root/iptables_firewall/start.fw
+    ~/scripts/iptables_firewall/start.fw
 
 LICENSE
 =======

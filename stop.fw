@@ -27,4 +27,4 @@ $IPT -P OUTPUT ACCEPT
 $IPT -P FORWARD ACCEPT
 
 # Stop ipv6 wall
-/root/iptables_firewall/stop6.fw
+~/scripts/iptables_firewall/stop6.fw

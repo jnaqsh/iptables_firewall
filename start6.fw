@@ -23,7 +23,7 @@ do
         $IPT6 -t $table -Z
 done
 
-[ -f /root/scripts/blocked.ip6s.txt ] && BADIPS=$(egrep -v -E "^#|^$" /root/scripts/blocked.ip6s.txt)
+[ -f ~/scripts/iptables_firewall/blocked.ip6s.txt ] && BADIPS=$(egrep -v -E "^#|^$" ~/scripts/iptables_firewall/blocked.ip6s.txt)
 
 #unlimited
 $IPT6 -A INPUT -i lo -j ACCEPT
@@ -34,7 +34,7 @@ $IPT6 -P INPUT DROP
 $IPT6 -P OUTPUT DROP
 $IPT6 -P FORWARD DROP
 
-if [ -f /root/scripts/blocked.ip6s.txt ];
+if [ -f ~/scripts/iptables_firewall/blocked.ip6s.txt ];
 then
 # create a new iptables list
 $IPT6 -N $SPAMLIST
