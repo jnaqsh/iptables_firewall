@@ -9,6 +9,7 @@ HOW TO USE IT
 =============
     cd ~
     mkdir scripts
+    cd scripts
     git clone https://github.com/jnaqsh/iptables_firewall/
     cd iptables_firewall
     chmod +x *.fw
