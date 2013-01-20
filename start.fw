@@ -27,7 +27,7 @@ done
 modprobe ip_conntrack
 modprobe ip_conntrack_ftp
 
-[ -f ~/scripts/iptables_firewall/blocked.ips.txt ] && BADIPS=$(egrep -v -E "^#|^$" ~/scripts/iptables_firewall/blocked.ips.txt)
+[ -f /root/iptables_firewall/blocked.ips.txt ] && BADIPS=$(egrep -v -E "^#|^$" /root/iptables_firewall/blocked.ips.txt)
 
 #unlimited
 $IPT -A INPUT -i lo -j ACCEPT
@@ -38,7 +38,7 @@ $IPT -P INPUT DROP
 $IPT -P OUTPUT DROP
 $IPT -P FORWARD DROP
 
-if [ -f ~/scripts/iptables_firewall/blocked.ips.txt ];
+if [ -f /root/iptables_firewall/blocked.ips.txt ];
 then
 # create a new iptables list
 $IPT -N $SPAMLIST
@@ -117,9 +117,9 @@ $IPT -A FORWARD -j LOG
 $IPT -A INPUT -j DROP
 
 # Start ipv6 firewall
-~/scripts/iptables_firewall/start6.fw
+/root/iptables_firewall/start6.fw
 
 # Start ip spoofing
-~/scripts/iptables_firewall/ip_spoofing.fw
+/root/iptables_firewall/ip_spoofing.fw
 
 exit 0

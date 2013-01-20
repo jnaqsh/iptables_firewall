@@ -9,7 +9,7 @@
 echo "Starting IP Spoofing wall..."
 
 INT_IF="eth0" # connected to internet
-SERVER_IP="`cat ~/scripts/iptables_firewall/server_ip`" # server IP
+SERVER_IP="`cat /root/iptables_firewall/server_ip`" # server IP
 
 # Add your IP range/IPs here,
 SPOOF_IPS="0.0.0.0/8 127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 224.0.0.0/3"

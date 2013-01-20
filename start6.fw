@@ -23,7 +23,7 @@ do
         $IPT6 -t $table -Z
 done
 
-[ -f ~/scripts/iptables_firewall/blocked.ip6s.txt ] && BADIPS=$(egrep -v -E "^#|^$" ~/scripts/iptables_firewall/blocked.ip6s.txt)
+[ -f /root/iptables_firewall/blocked.ip6s.txt ] && BADIPS=$(egrep -v -E "^#|^$" /root/iptables_firewall/blocked.ip6s.txt)
 
 #unlimited
 $IPT6 -A INPUT -i lo -j ACCEPT
