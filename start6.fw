@@ -11,6 +11,7 @@ IPT6="/sbin/ip6tables"
 SPAMLIST="blockedip"
 SPAMDROPMSG="BLOCKED IP DROP"
 PUB_IF="eth0"
+PRI_IF="eth1"
 
 echo "Starting IPv6 Wall..."
 $IPT6 -F

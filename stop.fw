@@ -28,3 +28,6 @@ $IPT -P FORWARD ACCEPT
 
 # Stop ipv6 wall
 /root/iptables_firewall/stop6.fw
+
+# Restart fail2ban
+service fail2ban restart

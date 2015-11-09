@@ -2,7 +2,6 @@ iptables_firewall
 =================
 
 A Linux Shell Script with common rules for IPTABLES Firewall.
-By default this script only open port 80, 22, 53 (input)
 All outgoing traffic is allowed (default - output)
 
 HOW TO USE IT

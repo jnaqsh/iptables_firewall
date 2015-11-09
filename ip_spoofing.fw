@@ -8,7 +8,7 @@
 
 echo "Starting IP Spoofing wall..."
 
-INT_IF="eth0" # connected to internet
+PUB_IF="eth0" # connected to internet
 SERVER_IP="`cat /root/iptables_firewall/server_ip`" # server IP
 
 # Add your IP range/IPs here,
@@ -18,11 +18,11 @@ IPT="/sbin/iptables" # path to iptables
 
 
 # Drop packet that claiming from our own server
-$IPT -A INPUT -i $INT_IF -s $SERVER_IP -j DROP
-$IPT -A OUTPUT -o $INT_IF -s $SERVER_IP -j DROP
+$IPT -A INPUT -i $PUB_IF -s $SERVER_IP -j DROP
+$IPT -A OUTPUT -o $PUB_IF -s $SERVER_IP -j DROP
 
 for ip in $SPOOF_IPS
 do
- $IPT -A INPUT -i $INT_IF -s $ip -j DROP
- $IPT -A OUTPUT -o $INT_IF -s $ip -j DROP
+  $IPT -A INPUT -i $PUB_IF -s $ip -j DROP
+  $IPT -A OUTPUT -o $PUB_IF -s $ip -j DROP
 done
